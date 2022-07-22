@@ -24,4 +24,5 @@ SMTP_PORT = 465
 SMTP_EMAIL = ''
 # If true then usernames are never screened, else usernames are screened too.
 FILTER_ANONYMOUS_ONLY = True
-
+# Should comments marked as spam to be sent on email?
+SEND_SPAM = False
