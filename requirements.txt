@@ -1,0 +1,6 @@
+Django==2.1.1
+lxml==4.6.4
+pymorphy2==0.9.1
+pymorphy2-dicts-ru==2.4.417127.4579844
+regex==2018.8.29
+requests==2.26.0
