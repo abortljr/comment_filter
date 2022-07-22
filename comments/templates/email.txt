@@ -1,0 +1,14 @@
+{% if author %}{{author}}{% else %}Anonymous {% endif %} commented on your LJR post:
+
+{{text}}
+
+Options:
+
+  - View the discussion:
+    http://lj.rossia.org/users/{{me}}/{{postid}}.html?thread={{cmtid}}
+  - View all comments on the entry:
+    http://lj.rossia.org/users/{{me}}/{{postid}}.html
+  - Reply to the comment:
+    http://lj.rossia.org/users/{{me}}/{{postid}}.html?replyto={{cmtid}}
+
+-- LJ.Rossia.org
