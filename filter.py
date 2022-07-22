@@ -75,7 +75,28 @@ for tr in doc.xpath('//tr[@id]'):
     if not created or author == USERNAME and not EMAIL_OWN:
         continue
 
-    if USE_EMAIL and EMAIL and SMTP_HOST:
+    if not author or not FILTER_ANONYMOUS_ONLY:
+        todelete = tofreeze = False
+        if test_spam(comment):
+            tofreeze = True
+        for word in re.split(r'[[:blank:][:punct:]\n]+', comment.text):
+            if re.match('^\p{L}+$', word) and not (re.match('^\p{Latin}+$', word) or re.match('^[\p{Cyrillic}i]+$', word)):
+                tofreeze = True
+            for m in morph.parse(word):
+                for re1 in regexes:
+                    if re1.match(m.normal_form) and m.tag.POS == 'NOUN':
+                        todelete = True
+
+        if todelete:
+            print("Delete:", comment.text)
+
+        if tofreeze:
+            print("Freeze:", comment.text)
+
+        if tofreeze or todelete:
+            print(s.post(f'{LJR_URL}talkscreen.bml?mode=screen&journal={USERNAME}&talkid={comment.cmtid}&jsmode=1', dict(confirm='Y')).text)
+
+    if  USE_EMAIL and EMAIL and SMTP_HOST and (not tofreeze and not todelete or SEND_SPAM):
         if smtp is None:
             smtp = SMTP_SSL(SMTP_HOST, SMTP_PORT)
             if SMTP_USERNAME and SMTP_PASSWORD:
@@ -93,26 +114,3 @@ for tr in doc.xpath('//tr[@id]'):
 
         smtp.sendmail(SMTP_EMAIL, [EMAIL], mime.as_string())
 
-    if author and FILTER_ANONYMOUS_ONLY:
-        continue
-
-    
-    todelete = tofreeze = False
-    if test_spam(comment):
-        tofreeze = True
-    for word in re.split(r'[[:blank:][:punct:]\n]+', comment.text):
-        if re.match('^\p{L}+$', word) and not (re.match('^\p{Latin}+$', word) or re.match('^[\p{Cyrillic}i]+$', word)):
-            tofreeze = True
-        for m in morph.parse(word):
-            for re1 in regexes:
-                if re1.match(m.normal_form) and m.tag.POS == 'NOUN':
-                    todelete = True
-
-    if todelete:
-        print("Delete:", comment.text)
-
-    if tofreeze:
-        print("Freeze:", comment.text)
-
-    if tofreeze or todelete:
-        print(s.post(f'{LJR_URL}talkscreen.bml?mode=screen&journal={USERNAME}&talkid={comment.cmtid}&jsmode=1', dict(confirm='Y')).text)
