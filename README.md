@@ -2,7 +2,7 @@
 Install python3 and pip3 packet manager first.
 Then go to the project directory and run commands:
 ```
-pip3 -r requirements.txt
+pip3 install -r requirements.txt
 ./manage.py migrate
 ```
 Then open file settings_private.py in editor and fill it with actual settings.
