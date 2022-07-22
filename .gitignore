@@ -3,3 +3,4 @@
 *.sqlite3
 *.log
 __pycache__
+settings_private.py
