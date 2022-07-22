@@ -12,4 +12,3 @@ There your LJR username and password, SMTP settings and some spam filter setting
 ```
 python3 filter.py
 ```
-There should be an environment variable set before usage: DJANGO_SETTINGS_MODULE=comments_filter.settings.
