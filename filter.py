@@ -24,7 +24,7 @@ subject_template = None
 def test_spam(comment):
     return re.findall(TEST_RE, comment.text, re.IGNORECASE)
 
-LJR_URL = 'http://lj.rossia.org/'
+LJR_URL = 'https://lj.rossia.org/'
 UNITS = dict(months=30, monthes=30, years=365)
 
 regexes = [re.compile(w) for w in WORDS.split()]
